@@ -110,7 +110,7 @@ class AssistantManager:
             if self.thread:
                 self.client.beta.thread.messages.create(
                     thread_id=self.thread.id,
-                    role=role
+                    role=role,
                     content=content
                 )
 
