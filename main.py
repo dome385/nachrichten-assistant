@@ -99,6 +99,44 @@ class AssistantManager:
                self.assistant = assistant_obj
                print(f"AssisID:::: {self.assistant.id}")
   
+     def create_thread(self):
+          if not self.thread:
+               thread_obj = self.client.beta.thread.create()
+               AssistantManager.thread_id = thread_obj.id
+               self.thread = thread_obj
+               print(f"ThreadID::: {self.thread_id}")
+
+     def add_message_to_thread(self, role, content):
+            if self.thread:
+                self.client.beta.thread.messages.create(
+                    thread_id=self.thread.id,
+                    role=role
+                    content=content
+                )
+
+     def run_assistant(self,instructions):
+          if self.thread and self.assistant:
+               self.run = self.client.beta.threads.runs.create(
+                    thread_id=self.thread.id,
+                    assistant_id=self.assistant.id,
+                    instructions=instructions
+                )
+     def process_message(self):
+          if self.thread:
+               messages = self.client.beta.threads.messages.list(
+                    thread_id=self.thread_id
+               )
+               summary = []
+               last_message = messages.data[0]
+               role = last_message.role
+               response = last_message.content[0].text.value
+
+               
+
+          
+               
+
+     
      
 
 if __name__ == "__main__":
